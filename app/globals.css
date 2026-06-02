@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --crimson: #C0392B;
+    --crimson-dark: #96281B;
+    --crimson-light: #E74C3C;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+
+  body {
+    @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
+  .dark body {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[#C0392B] hover:bg-[#96281B] text-white font-semibold px-4 py-2 rounded-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 font-semibold px-4 py-2 rounded-lg transition-all duration-200;
+  }
+
+  .btn-ghost {
+    @apply text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-2 rounded-lg transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C0392B] focus:border-transparent transition-all duration-200;
+  }
+
+  .blood-badge {
+    @apply inline-flex items-center justify-center font-heading font-bold text-sm px-2.5 py-0.5 rounded-full;
+  }
+
+  .urgency-critical {
+    @apply bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800;
+  }
+
+  .urgency-urgent {
+    @apply bg-orange-50 dark:bg-orange-950 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800;
+  }
+
+  .urgency-normal {
+    @apply bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-gray-200 dark:bg-gray-800 rounded-lg;
+  }
+
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply font-heading font-bold text-2xl text-gray-900 dark:text-white;
+  }
+}
+
+@layer utilities {
+  .text-crimson {
+    color: #C0392B;
+  }
+
+  .bg-crimson {
+    background-color: #C0392B;
+  }
+
+  .border-crimson {
+    border-color: #C0392B;
+  }
+
+  .ring-crimson {
+    --tw-ring-color: #C0392B;
+  }
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  z-index: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
