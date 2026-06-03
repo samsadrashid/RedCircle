@@ -1,5 +1,14 @@
 export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-'
 
+export type DonationSource = 'self' | 'campaign' | 'hospital_auto'
+
+export interface CooldownStatus {
+  is_on_cooldown: boolean
+  last_donated_at: string | null
+  cooldown_ends_at: string | null
+  days_remaining: number
+}
+
 export type DonorLevel = 'new' | 'bronze' | 'silver' | 'gold' | 'hero'
 
 export type UrgencyLevel = 'critical' | 'urgent' | 'normal'
@@ -56,6 +65,9 @@ export interface Donation {
   cooldown_ends_at: string
   certificate_url: string | null
   created_at: string
+  source: DonationSource
+  verified: boolean
+  campaign_id?: string
   donor?: Profile
 }
 

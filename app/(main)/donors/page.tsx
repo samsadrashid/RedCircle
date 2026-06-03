@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { DonorDirectory } from '@/components/donors/donor-directory'
 import { DonorCardSkeleton } from '@/components/ui/skeleton'
-import { BLOOD_GROUPS, BANGLADESH_DISTRICTS } from '@/lib/constants'
+import { BLOOD_GROUPS } from '@/lib/constants'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = { title: 'Find Donors' }
@@ -35,14 +35,14 @@ async function getDonors(searchParams: PageProps['searchParams']) {
   if (searchParams.district) {
     query = query.eq('district', searchParams.district)
   }
-  if (searchParams.available === 'true') {
+  if (searchParams.available !== 'all') {
     query = query.eq('is_available', true)
   }
   if (searchParams.q) {
     query = query.ilike('full_name', `%${searchParams.q}%`)
   }
 
-  const { data, error } = await query
+  const { data } = await query
   return data || []
 }
 

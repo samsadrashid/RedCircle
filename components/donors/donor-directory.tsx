@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { Search, Filter, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
@@ -80,13 +80,18 @@ export function DonorDirectory({ donors, searchParams }: DonorDirectoryProps) {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Availability</label>
             <div className="flex gap-2">
               {[
-                { value: '', label: 'All' },
-                { value: 'true', label: 'Available only' },
+                { value: '', label: 'Available only' },
+                { value: 'all', label: 'Show all' },
               ].map(opt => (
                 <button
                   key={opt.value}
                   onClick={() => updateFilter('available', opt.value || undefined)}
-                  className={`flex-1 py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${searchParams.available === opt.value || (!searchParams.available && !opt.value) ? 'bg-[#C0392B] text-white border-[#C0392B]' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300'}`}
+                  className={`flex-1 py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${
+                    (opt.value === 'all' && searchParams.available === 'all') ||
+                    (opt.value === '' && searchParams.available !== 'all')
+                      ? 'bg-[#C0392B] text-white border-[#C0392B]'
+                      : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                  }`}
                 >
                   {opt.label}
                 </button>

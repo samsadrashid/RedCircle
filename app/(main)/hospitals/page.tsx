@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic'
 
 import { createClient } from '@/lib/supabase/server'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { HospitalDirectory } from '@/components/hospitals/hospital-directory'
 import type { Metadata } from 'next'
 
@@ -28,6 +30,9 @@ export default async function HospitalsPage({ searchParams }: PageProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors">
+        <ArrowLeft className="h-4 w-4" /> Back to Home
+      </Link>
       <div className="mb-6">
         <h1 className="font-heading font-bold text-3xl text-gray-900 dark:text-white">Hospitals & Blood Banks</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">Find blood banks and emergency contacts across Bangladesh</p>

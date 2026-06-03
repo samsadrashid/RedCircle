@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { MapPin, CheckCircle, Clock, Edit, Share2, QrCode } from 'lucide-react'
+import { MapPin, CheckCircle, Clock, Edit, Share2, QrCode, Droplets } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar } from '@/components/ui/avatar'
 import { BloodGroupBadge, DonorLevelBadge } from '@/components/ui/badge'
@@ -13,6 +13,9 @@ import { Profile, Donation, DonorBadge } from '@/types'
 import { formatDate, getCooldownDaysRemaining, getCooldownProgress } from '@/lib/utils'
 import { BADGE_CONFIG, LIVES_PER_DONATION as LPD } from '@/lib/constants'
 import dynamic from 'next/dynamic'
+import { CooldownBadge } from '@/components/donations/CooldownBadge'
+import { DonationHistory } from '@/components/donations/DonationHistory'
+import { LogDonationSheet } from '@/components/donations/LogDonationSheet'
 
 const QRCodeComponent = dynamic(() => import('react-qr-code').then(m => ({ default: m.default })), { ssr: false })
 
@@ -25,6 +28,7 @@ interface Props {
 
 export function DonorProfile({ profile, donations, badges, isOwnProfile }: Props) {
   const [showQR, setShowQR] = useState(false)
+  const [showDonateSheet, setShowDonateSheet] = useState(false)
   const latestDonation = donations[0]
   const cooldownRemaining = latestDonation ? getCooldownDaysRemaining(latestDonation.cooldown_ends_at) : 0
   const profileUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://redcircle.app'}/donor/${profile.id}`
@@ -58,14 +62,19 @@ export function DonorProfile({ profile, donations, badges, isOwnProfile }: Props
               </div>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap justify-end">
               <Button variant="ghost" size="icon" onClick={() => setShowQR(true)}>
                 <QrCode className="h-5 w-5" />
               </Button>
               {isOwnProfile && (
-                <Button variant="secondary" size="sm" asChild>
-                  <Link href="/profile/edit"><Edit className="h-4 w-4" /> Edit</Link>
-                </Button>
+                <>
+                  <Button size="sm" onClick={() => setShowDonateSheet(true)}>
+                    <Droplets className="h-4 w-4" /> Log Donation
+                  </Button>
+                  <Button variant="secondary" size="sm" asChild>
+                    <Link href="/profile/edit"><Edit className="h-4 w-4" /> Edit</Link>
+                  </Button>
+                </>
               )}
             </div>
           </div>
@@ -134,8 +143,29 @@ export function DonorProfile({ profile, donations, badges, isOwnProfile }: Props
         </Card>
       )}
 
+      {/* Cooldown status — own profile only */}
+      {isOwnProfile && (
+        <Card>
+          <CardContent className="pt-6">
+            <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Donation Status</h2>
+            <CooldownBadge
+              isAvailable={profile.is_available}
+              cooldownEndsAt={latestDonation?.cooldown_ends_at}
+              donatedAt={latestDonation?.donated_at}
+            />
+            {profile.is_available && (
+              <Button size="sm" className="mt-4 w-full" onClick={() => setShowDonateSheet(true)}>
+                <Droplets className="h-4 w-4" /> Log a Donation
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       {/* Donation history */}
-      {donations.length > 0 && (
+      {isOwnProfile ? (
+        <DonationHistory donations={donations} isOwnProfile />
+      ) : donations.length > 0 ? (
         <Card>
           <CardContent className="pt-6">
             <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Donation History</h2>
@@ -156,6 +186,14 @@ export function DonorProfile({ profile, donations, badges, isOwnProfile }: Props
             </div>
           </CardContent>
         </Card>
+      ) : null}
+
+      {/* Log donation sheet */}
+      {isOwnProfile && (
+        <LogDonationSheet
+          open={showDonateSheet}
+          onClose={() => setShowDonateSheet(false)}
+        />
       )}
 
       {/* QR Code Modal */}
