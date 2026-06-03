@@ -118,9 +118,9 @@ export function HospitalDirectory({ hospitals, searchParams }: Props) {
           <div className="w-48">
             <Select
               placeholder="All districts"
-              options={[{ value: '', label: 'All districts' }, ...BANGLADESH_DISTRICTS.map(d => ({ value: d, label: d }))]}
-              value={searchParams.district || ''}
-              onValueChange={(v) => updateFilter('district', v || undefined)}
+              options={[{ value: '_all', label: 'All districts' }, ...BANGLADESH_DISTRICTS.map(d => ({ value: d, label: d }))]}
+              value={searchParams.district || '_all'}
+              onValueChange={(v) => updateFilter('district', v === '_all' ? undefined : v)}
             />
           </div>
 

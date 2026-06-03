@@ -78,30 +78,30 @@ export function RequestBoard({ requests, myRequests, searchParams, userId }: Req
           <div className="w-40">
             <Select
               placeholder="Blood group"
-              options={[{ value: '', label: 'All groups' }, ...BLOOD_GROUPS.map(bg => ({ value: bg, label: bg }))]}
-              value={searchParams.blood_group || ''}
-              onValueChange={(v) => updateFilter('blood_group', v || undefined)}
+              options={[{ value: '_all', label: 'All groups' }, ...BLOOD_GROUPS.map(bg => ({ value: bg, label: bg }))]}
+              value={searchParams.blood_group || '_all'}
+              onValueChange={(v) => updateFilter('blood_group', v === '_all' ? undefined : v)}
             />
           </div>
           <div className="w-48">
             <Select
               placeholder="District"
-              options={[{ value: '', label: 'All districts' }, ...BANGLADESH_DISTRICTS.map(d => ({ value: d, label: d }))]}
-              value={searchParams.district || ''}
-              onValueChange={(v) => updateFilter('district', v || undefined)}
+              options={[{ value: '_all', label: 'All districts' }, ...BANGLADESH_DISTRICTS.map(d => ({ value: d, label: d }))]}
+              value={searchParams.district || '_all'}
+              onValueChange={(v) => updateFilter('district', v === '_all' ? undefined : v)}
             />
           </div>
           <div className="w-44">
             <Select
               placeholder="Urgency"
               options={[
-                { value: '', label: 'All urgency' },
+                { value: '_all', label: 'All urgency' },
                 { value: 'critical', label: '🚨 Critical' },
                 { value: 'urgent', label: '⚡ Urgent' },
                 { value: 'normal', label: 'Normal' },
               ]}
-              value={searchParams.urgency || ''}
-              onValueChange={(v) => updateFilter('urgency', v || undefined)}
+              value={searchParams.urgency || '_all'}
+              onValueChange={(v) => updateFilter('urgency', v === '_all' ? undefined : v)}
             />
           </div>
           {hasActiveFilters && (
